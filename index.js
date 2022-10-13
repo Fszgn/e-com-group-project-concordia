@@ -16,7 +16,6 @@ const {
   getUpdatedCart,
 } = require("./handlers");
 
-const PORT = 4000;
 
 express()
   // .use(function (req, res, next) {
@@ -75,6 +74,6 @@ express()
     }
   })
 
-  .listen(PORT || process.env.PORT, () =>
+  .listen(process.env.PORT || 4000, () =>
     console.info(`Listening on port ${PORT}`)
   );
