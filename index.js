@@ -61,4 +61,4 @@ express()
   // gets the updated cart so it can update stock properly
   // .patch("/getUpdateCart", getUpdatedCart)
 
-  .listen(PORT, () => console.info(`Listening on port ${PORT}`));
+  .listen(PORT || process.env.PORT, () => console.info(`Listening on port ${PORT}`));
