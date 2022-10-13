@@ -19,17 +19,22 @@ const {
 const PORT = 4000;
 
 express()
-  .use(function (req, res, next) {
-    res.header(
-      "Access-Control-Allow-Methods",
-      "OPTIONS, HEAD, GET, PUT, POST, DELETE"
-    );
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-  })
+  // .use(function (req, res, next) {
+  //   res.header(
+  //     "Access-Control-Allow-Methods",
+  //     "OPTIONS, HEAD, GET, PUT, POST, DELETE"
+  //   );
+  //   res.header(
+  //     "Access-Control-Allow-Headers",
+  //     "Origin, X-Requested-With, Content-Type, Accept"
+  //   );
+  //   next();
+  // })
+  .use(
+    cors({
+      origin: "*",
+    })
+  )
   .use(morgan("tiny"))
   .use(express.static("./server/assets"))
   .use(express.json())
@@ -60,5 +65,16 @@ express()
   .get("/getLatestOrder", getLatestOrder)
   // gets the updated cart so it can update stock properly
   // .patch("/getUpdateCart", getUpdatedCart)
+  // Handle bad request
+  .all("*", function (req, res) {
+    throw new Error("Bad request");
+  })
+  .use(function (e, req, res, next) {
+    if (e.message === "Bad request") {
+      res.status(400).json({ error: { msg: e.message } });
+    }
+  })
 
-  .listen(PORT || process.env.PORT, () => console.info(`Listening on port ${PORT}`));
+  .listen(PORT || process.env.PORT, () =>
+    console.info(`Listening on port ${PORT}`)
+  );
