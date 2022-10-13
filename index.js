@@ -76,5 +76,5 @@ express()
   })
 
   .listen(process.env.PORT || 4000, () =>
-    console.info(`Listening on port ${PORT}`)
+    console.info(`Listening on port`)
   );
